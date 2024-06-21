@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, View, Alert, TextInput, ScrollView, FlatList } from 'react-native';
+import { Button, StyleSheet, Text, View, Alert, TextInput, Image, ScrollView, FlatList, Modal } from 'react-native';
 import { useState } from 'react';
 
 // GoalInput component handles the input and addition of goals
@@ -19,17 +19,28 @@ function GoalInput(props) {
     };
 
     return (
-        <View style={styles.inputContainer}>
-            {/* TextInput for entering goals */}
-            <TextInput
-                placeholder='Your goals'
-                style={styles.textInput}
-                onChangeText={goalInputHandler} // Call goalInputHandler on text change
-                value={enteredGoalText} // Bind the input value to enteredGoalText state
-            />
-            {/* Button to add the goal */}
-            <Button title='Add Goal' onPress={addGoalHandler} />
-        </View>
+        <Modal visible={props.visible} animationType='slide'>
+            <StatusBar />
+            <View style={styles.inputContainer}>
+                <Image style={styles.image} source={require('../assets/images/goal.png')} />
+                {/* TextInput for entering goals */}
+                <TextInput
+                    placeholder='Your goals'
+                    style={styles.textInput}
+                    onChangeText={goalInputHandler} // Call goalInputHandler on text change
+                    value={enteredGoalText} // Bind the input value to enteredGoalText state
+                />
+                {/* Button to add the goal */}
+                <View style={styles.buttonContainer}>
+                    <View style={styles.button}>
+                        <Button title='Cancel' onPress={props.onCancel} color='#f31282' />
+                    </View>
+                    <View style={styles.button}>
+                        <Button title='Add Goal' onPress={addGoalHandler} color='#b898e0' />
+                    </View>
+                </View>
+            </View>
+        </Modal>
     )
 }
 
@@ -38,21 +49,33 @@ export default GoalInput;
 const styles = StyleSheet.create({
     // Style for the input container
     inputContainer: {
-        flexDirection: 'row', // Layout children in a row
-        justifyContent: 'space-between', // Space out children evenly
+        flex: 1,
+        justifyContent: 'center', // Space out children evenly
         alignItems: 'center', // Align children to the center
-        marginBottom: 24, // Margin at the bottom
-        paddingBottom: 24, // Padding at the bottom
-        borderBottomWidth: 1, // Border at the bottom
-        borderBottomColor: '#cccccc' // Border color
+        padding: 16,
+        backgroundColor: '#311b6b'
     },
-
     // Style for the text input
     textInput: {
         borderWidth: 1, // Border width
-        borderColor: '#cccccc', // Border color
-        width: '70%', // Width of the text input
-        marginRight: 8, // Margin to the right
-        padding: 8, // Padding inside the input
+        borderColor: '#e4d0ff', // Border color
+        backgroundColor: '#e4d0ff',
+        color: '#120438',
+        borderRadius: 6,
+        width: '100%', // Width of the text input
+        padding: 16, // Padding inside the input
     },
+    buttonContainer: {
+        marginTop: 16,
+        flexDirection: 'row'
+    },
+    button: {
+        width: 100,
+        marginHorizontal: 8
+    },
+    image: {
+        width: 100,
+        height: 100,
+        margin: 20
+    }
 });

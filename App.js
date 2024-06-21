@@ -7,7 +7,7 @@ import GoalInput from './components/GoalInput';
 export default function App() {
   // State to hold the list of course goals
   const [courseGoals, setCourseGoals] = useState([]);
-
+  const [modalIsVisible, setModalIsVisible] = useState(false);
   // Handler to add a new goal to the list
   function addGoalHandler(enteredGoalText) {
     // Check if the entered goal text is empty
@@ -19,6 +19,7 @@ export default function App() {
         ...currentCourseGoals,
         { text: enteredGoalText, id: Math.random().toString() }, // Each goal has a text and a unique id
       ]);
+      endAddGoalHandler();
     }
   };
 
@@ -30,27 +31,46 @@ export default function App() {
     });
   }
 
+  function startAddGoalHandler() {
+    setModalIsVisible(true);
+  }
+
+  function endAddGoalHandler() {
+    setModalIsVisible(false);
+  }
+
   return (
-    <View style={styles.appContainer}>
-      {/* Component to input and add new goals */}
-      <GoalInput onAddGoal={addGoalHandler} />
-      <View style={styles.goalsContainer}>
-        {/* FlatList to render the list of goals */}
-        <FlatList
-          data={courseGoals} // Data source for the list
-          renderItem={(itemData) => {
-            // Render each goal item
-            return (
-              <GoalItem
-                text={itemData.item.text}
-                onDeleteItem={() => deleteGoalHandler(itemData.item.id)} // Pass the delete handler with the goal id
-              />
-            );
-          }}
-          keyExtractor={(item) => item.id} // Key extractor to provide unique keys for each item
+    <>
+      <StatusBar style='light' />
+      <View style={styles.appContainer}>
+        <Button
+          title='Add New Goal'
+          color="#b188e6"
+          onPress={startAddGoalHandler}
         />
+        {/* Component to input and add new goals */}
+        <GoalInput visible={modalIsVisible}
+          onAddGoal={addGoalHandler}
+          onCancel={endAddGoalHandler}
+        />
+        <View style={styles.goalsContainer}>
+          {/* FlatList to render the list of goals */}
+          <FlatList
+            data={courseGoals} // Data source for the list
+            renderItem={(itemData) => {
+              // Render each goal item
+              return (
+                <GoalItem
+                  text={itemData.item.text}
+                  onDeleteItem={() => deleteGoalHandler(itemData.item.id)} // Pass the delete handler with the goal id
+                />
+              );
+            }}
+            keyExtractor={(item) => item.id} // Key extractor to provide unique keys for each item
+          />
+        </View>
       </View>
-    </View>
+    </>
   );
 }
 
