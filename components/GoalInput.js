@@ -19,9 +19,11 @@ function GoalInput(props) {
     };
 
     return (
+        // Modal component to display the input form
         <Modal visible={props.visible} animationType='slide'>
             <StatusBar />
             <View style={styles.inputContainer}>
+                {/* Image above the input field */}
                 <Image style={styles.image} source={require('../assets/images/goal.png')} />
                 {/* TextInput for entering goals */}
                 <TextInput
@@ -30,11 +32,13 @@ function GoalInput(props) {
                     onChangeText={goalInputHandler} // Call goalInputHandler on text change
                     value={enteredGoalText} // Bind the input value to enteredGoalText state
                 />
-                {/* Button to add the goal */}
+                {/* Container for the buttons */}
                 <View style={styles.buttonContainer}>
+                    {/* Button to cancel adding a goal */}
                     <View style={styles.button}>
                         <Button title='Cancel' onPress={props.onCancel} color='#f31282' />
                     </View>
+                    {/* Button to add the goal */}
                     <View style={styles.button}>
                         <Button title='Add Goal' onPress={addGoalHandler} color='#b898e0' />
                     </View>
@@ -50,32 +54,35 @@ const styles = StyleSheet.create({
     // Style for the input container
     inputContainer: {
         flex: 1,
-        justifyContent: 'center', // Space out children evenly
-        alignItems: 'center', // Align children to the center
+        justifyContent: 'center', // Center items vertically
+        alignItems: 'center', // Center items horizontally
         padding: 16,
-        backgroundColor: '#311b6b'
+        backgroundColor: '#311b6b' // Background color for the modal
     },
     // Style for the text input
     textInput: {
         borderWidth: 1, // Border width
         borderColor: '#e4d0ff', // Border color
-        backgroundColor: '#e4d0ff',
-        color: '#120438',
-        borderRadius: 6,
-        width: '100%', // Width of the text input
+        backgroundColor: '#e4d0ff', // Background color
+        color: '#120438', // Text color
+        borderRadius: 6, // Rounded corners
+        width: '100%', // Full width of the container
         padding: 16, // Padding inside the input
     },
+    // Style for the button container
     buttonContainer: {
-        marginTop: 16,
-        flexDirection: 'row'
+        marginTop: 16, // Margin at the top
+        flexDirection: 'row' // Layout buttons in a row
     },
+    // Style for individual buttons
     button: {
-        width: 100,
-        marginHorizontal: 8
+        width: 100, // Fixed width for buttons
+        marginHorizontal: 8 // Horizontal margin between buttons
     },
+    // Style for the image
     image: {
-        width: 100,
-        height: 100,
-        margin: 20
+        width: 100, // Width of the image
+        height: 100, // Height of the image
+        margin: 20 // Margin around the image
     }
 });

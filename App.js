@@ -7,7 +7,9 @@ import GoalInput from './components/GoalInput';
 export default function App() {
   // State to hold the list of course goals
   const [courseGoals, setCourseGoals] = useState([]);
+  // State to control the visibility of the modal
   const [modalIsVisible, setModalIsVisible] = useState(false);
+
   // Handler to add a new goal to the list
   function addGoalHandler(enteredGoalText) {
     // Check if the entered goal text is empty
@@ -19,6 +21,7 @@ export default function App() {
         ...currentCourseGoals,
         { text: enteredGoalText, id: Math.random().toString() }, // Each goal has a text and a unique id
       ]);
+      // Close the modal after adding a goal
       endAddGoalHandler();
     }
   };
@@ -31,27 +34,32 @@ export default function App() {
     });
   }
 
+  // Handler to show the modal for adding a new goal
   function startAddGoalHandler() {
     setModalIsVisible(true);
   }
 
+  // Handler to hide the modal
   function endAddGoalHandler() {
     setModalIsVisible(false);
   }
 
   return (
     <>
+      {/* StatusBar component to style the status bar */}
       <StatusBar style='light' />
       <View style={styles.appContainer}>
+        {/* Button to open the modal for adding a new goal */}
         <Button
           title='Add New Goal'
           color="#b188e6"
           onPress={startAddGoalHandler}
         />
         {/* Component to input and add new goals */}
-        <GoalInput visible={modalIsVisible}
-          onAddGoal={addGoalHandler}
-          onCancel={endAddGoalHandler}
+        <GoalInput
+          visible={modalIsVisible} // Pass the modal visibility state as a prop
+          onAddGoal={addGoalHandler} // Pass the add goal handler as a prop
+          onCancel={endAddGoalHandler} // Pass the cancel handler as a prop
         />
         <View style={styles.goalsContainer}>
           {/* FlatList to render the list of goals */}
@@ -61,7 +69,7 @@ export default function App() {
               // Render each goal item
               return (
                 <GoalItem
-                  text={itemData.item.text}
+                  text={itemData.item.text} // Pass the goal text as a prop
                   onDeleteItem={() => deleteGoalHandler(itemData.item.id)} // Pass the delete handler with the goal id
                 />
               );
